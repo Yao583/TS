@@ -86,6 +86,7 @@
 \begin{frame}{Motivation}
     \begin{itemize}
         \item Monetary policy rules have changed over time?
+        \item For researchers working with macroeconomic and financial data, there is great interest in investigating whether structural breaks and regime-switching behavior occurs in the conditional mean, $E(y_t|T_{t-1})$, and the conditional variance, $var(y_t|T_{t-1})$.
         \item Models that are nonlinear or exhibit structural breaks or time variation in parameters.
         \item The set of possible models is huge. Date mining issue.
         \item Can we develop a flexible parametric model which nests almost all of these specifications?
@@ -110,25 +111,57 @@
     \begin{itemize}
         \item TVP written in state space form:\\
             \begin{align}
-            y_t &= \theta_tx_t + \sigma_\epsilon\epsilon_t\\
-            \theta_t &= \theta_{t-1} + \sigma_\nu\nu_t
+            y_t &= \theta_tx_t + \varepsilon_t\\
+            \theta_t &= \theta_{t-1} + \nu_t
             \end{align}
-        $\epsilon_t$ and $\nu_t$ are $i.i.d.$ $N(0,1)$ - assume homoskedasticity in this simple case, include volatility issues in the general model.
-        \item Our model:\\
-            \begin{align}
-            y_s &= \theta_sx_s + \sigma_\epsilon\epsilon_s\\
-            \theta_s &= \theta_{s-1} + \sigma_\nu d(z_s, z_{s-1})\nu_s
-            \end{align}
-        Add two simple concepts: hypothetical data reordering and distance function
+        $\epsilon_t$ is $i.i.d.$ $N(0,\sigma_\epsilon^2) $and $\nu_t$ is $i.i.d.$ $N(0,\sigma_\nu^2)$ - assume homoskedasticity in this simple case, include volatility issues in the general model.\\
+        \item Add stochastic volatility to the measurement equation:\\
+            \begin{align*}
+            \varepsilon_t &= \xi_t exp\left(\frac{1}{2}\alpha_t\right)\\
+            \xi_t &\sim N(0,1)\\
+            \alpha_t &= \alpha_{t-1} + \eta_t\\
+            \eta_t &\sim N(0, \sigma_\eta^2)
+            \end{align*}
+        
     \end{itemize}
 
 \end{frame}
 \begin{frame}{Model}
     \begin{itemize}
         \item The role of the distance function
-        \item The rold of hypothetical data reordering
+            \begin{align}
+            y_t &= \theta_ty_{t-1} + \varepsilon_t\\
+            \theta_t &= \theta_{t-1} + d(t,t-1)\nu_t
+            \end{align}
+        \item links bwtween this framework with other time series models\\
+        \begin{itemize}
+            \item If $d(t,t-1) = 0$ $\rightarrow$ standard linear AR model
+            \item If $d(t,t-1) = 1$ $\rightarrow$ TVP model as in Koop and Potter (2001)
+            \item If $d(t,t-1) = 1$ if $t=\tau$ and $d(t,t-1) = 0$ otherwise, then $\theta_1 = \cdots = \theta_{\tau-1}$ and $\theta_{\tau} = \cdots = \theta_T$ $\rightarrow$ model with a single structural break at $\tau$
+            \item Add a second breakpoint $\rightarrow$ model with two structural breaks
+            \item $\cdots$ 
+        \end{itemize}
     \end{itemize}
 \end{frame}
+\begin{frame}{Model}
+    \begin{itemize}
+        \item The role of hypothetical data reordering
+            \begin{align}
+                y_s &= \theta_sx_s + \varepsilon_s\\
+                \theta_s &= \theta_{s-1} +  d(z_s, z_{s-1})\nu_s
+                \end{align}
+                where $z_t$ is an exogenous index variable, $\gamma$ define the ordering of the data according to $z_t$ and $s$ is the index under the new ordering
+        \item Links between this framework with other time series models
+        \begin{itemize}
+            \item If $z_t = y_{t-1}$ (then $\gamma$ orders the data based on last period's $y$), define $d(z_s,z_{s-1}) = 1$ if $z_{s-1} < \tau$ and $z_s \geq \tau $ and $d(z_s,z_{s-1}) = 0$ otherwise $\rightarrow$ two-regime TAR model
+                \begin{align*}
+                y_t &= \theta_1x_t + \varepsilon_t \; if\,y_{t-1} <\tau\\
+                y_t &= \theta_2x_t + \varepsilon_t \; if\,y_{t-1} \geq\tau
+                \end{align*}
+        \end{itemize}
+    \end{itemize}
+\end{frame}
+
 \begin{frame}{Model}
 \includegraphics[width = 0.9\textwidth]{model.png}
 \end{frame}
@@ -145,8 +178,7 @@
 \section{Discussion}
 \begin{frame}{Discussion}
     \begin{itemize}
-        \item For researchers working with macroeconomic and financial data, there is great interest in investigating whether structural breaks and regime-switching behavior occurs in the conditional mean, $E(y_t|T_{t-1})$, and the conditional variance, $var(y_t|T_{t-1})$.
-        \item This paper adds a new approach to flexible modeling to complement the existing literature, but embeds more flexibility. 
+        
         \item This model nests virtually every popular model in the regime-switching and structural break literatures, including everything from abrupt change models (e.g. threshold autoregressive models or structural break models such as Bai and Perron (1998)) to those which allow gradual evolution of parameters (e.g. smooth transition autoregressive models or TVP models such as Primiceri (2005)).
         \item This model adds two simple concepts, hypothetical reordering and distance, to a standard state space framework.
         \item Retain the state space framework, bayesian econometric methods are relatively straightforward drawing on the existing literature. 
