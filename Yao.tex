@@ -88,7 +88,7 @@
         \item Monetary policy rules have changed over time?
         \item For researchers working with macroeconomic and financial data, there is great interest in investigating whether structural breaks and regime-switching behavior occurs in the conditional mean, $E(y_t|T_{t-1})$, and the conditional variance, $var(y_t|T_{t-1})$.
         \item Models that are nonlinear or exhibit structural breaks or time variation in parameters.
-        \item The set of possible models is huge. Date mining issue.
+        \item The set of possible models is huge. Data mining issue.
         \item Can we develop a flexible parametric model which nests almost all of these specifications?
     \end{itemize}  
 \end{frame}
@@ -114,7 +114,7 @@
             y_t &= \theta_tx_t + \varepsilon_t\\
             \theta_t &= \theta_{t-1} + \nu_t
             \end{align}
-        $\epsilon_t$ is $i.i.d.$ $N(0,\sigma_\epsilon^2) $and $\nu_t$ is $i.i.d.$ $N(0,\sigma_\nu^2)$ - assume homoskedasticity in this simple case, include volatility issues in the general model.\\
+        $\varepsilon_t$ is $i.i.d.$ $N(0,\sigma_\epsilon^2) $and $\nu_t$ is $i.i.d.$ $N(0,\sigma_\nu^2)$ - assume homoskedasticity in this simple case, include volatility issues in the general model.\\
         \item Add stochastic volatility to the measurement equation:\\
             \begin{align*}
             \varepsilon_t &= \xi_t exp\left(\frac{1}{2}\alpha_t\right)\\
